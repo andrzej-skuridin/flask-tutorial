@@ -13,5 +13,10 @@ bp = Blueprint(
 
 
 @bp.route('/<placeholder>', methods=['GET'])
-def one(placeholder):
+def one(placeholder=None):
     return f'This is {placeholder}.'
+
+
+@bp.route('/', methods=['GET'])
+def two():
+    return f'This is {__name__}.'

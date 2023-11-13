@@ -30,13 +30,16 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth, foo
+    from . import auth
     app.register_blueprint(blueprint=auth.bp)
-    app.register_blueprint(blueprint=foo.bp)
 
     from . import blog
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    # What's the purpose of the next command?? App works just fine without it.
+    app.add_url_rule(rule='/', endpoint='index')
+
+    from . import foo
+    app.register_blueprint(blueprint=foo.bp)
 
     # a simple page that says hello
     @app.route('/hello')
