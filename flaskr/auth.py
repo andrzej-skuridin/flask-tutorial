@@ -10,9 +10,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+# Blueprint is something alike Django's routers.
+bp = Blueprint(
+    name='auth',
+    import_name=__name__,
+    url_prefix='/auth'
+)
 
 
+# bp.before_app_request() registers a function that runs before the view function,
+# no matter what URL is requested, before every request, not only those handled by the blueprint.
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -41,7 +48,7 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                    'INSERT INTO user (username, password) VALUES (?, ?)',
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
